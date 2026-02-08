@@ -98,7 +98,7 @@ export default defineNuxtConfig({
       defaultService: process.env.DEFAULT_SERVICE,
       isDev,
       isDeployed,
-      deploymentDomain,
+      deploymentDomain: 'https://booking.p2pay.to',
       pusherApikey: process.env.PUSHER_APIKEY,
       pusherCluster: process.env.PUSHER_CLUSTER,
       pusherAppId: process.env.PUSHER_APP_ID
