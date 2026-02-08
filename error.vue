@@ -1,12 +1,14 @@
 <script setup>
-const props = defineProps({
+const { error } = defineProps({
   error: Object,
   required: true
 });
 
+console.log('Error:', error);
+
 useContentHead({
-  title: props.error.statusCode,
-  description: props.error.message
+  title: error.statusCode,
+  description: error.message
 })
 
 const {
@@ -15,7 +17,7 @@ const {
 } = useI18n();
 
 let translatedErrorMessage
-switch(props.error.statusCode) {
+switch(error.statusCode) {
   case 401:
     translatedErrorMessage = t('error.unauthorized')
     break;
@@ -37,7 +39,7 @@ const handleError = () => clearError({ redirect: `/${locale.value}` });
     <div class="hero-body">
       <div class="container has-text-centered">
         <p class="title">{{ translatedErrorMessage }}</p>
-        <DevOnly v-if="props.error.statusCode !== 404">
+        <DevOnly v-if="error.statusCode !== 404">
           <div class="block content">
             <div>{{ error.statusMessage || error.message }}</div>
             <div>{{ error.stack }}</div>

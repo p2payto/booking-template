@@ -1,112 +1,79 @@
 <script setup>
-// import { email } from '@vee-validate/rules';
 
-  // Get the buyer leanguage
-  const { locale } = useI18n();
-  
-  // Get language specific profile settings
-  const {
-    title,
-    description,
-    image,
-    email,
-    pgp,
-    twitter,
-    nostr,
-    telegram,
-    instagram,
-    facebook,
-    tiktok,
-    youtube,
-    websites,
-    body
-  } = await queryContent(`/profile`).locale(locale.value).findOne();
+const token = ref('')
+const pgpPublicKey = ref('')
+const pgpPrivateKey = ref('')
+const nostrPubkey = ref('')
+const apiResponse = ref(null)
+const loading = ref(false)
 
-  const { 
-    public: {
-      deploymentDomain
-    }
-  } = useRuntimeConfig();
+async function generateIdentity() {
+  loading.value = true
+  try {
+    const res = await $fetch('/api/robosats/identity')
+    token.value = res.token
+    pgpPublicKey.value = res.pgpPublicKey
+    pgpPrivateKey.value = res.pgpPrivateKey
+    nostrPubkey.value = res.nostrPubkey
 
-  // Set head og: meta tags.
-  useHead({
-    meta: [
-      {
-        id: 'og:title',
-        name: 'og:title',
-        content: title
-      },
-      {
-        id: 'og:description',
-        name: 'og:description',
-        content: description
-      },
-      {
-        id: 'og:image',
-        name: 'og:image',
-        content: `${deploymentDomain}/${image}`
-      },  
-      {
-        id: 'twitter:image',
-        name: 'twitter:image',
-        content: `${deploymentDomain}/${image}`
-      }, 
-    ]
-  })
+    // Now make the actual RoboSats request
+    const response = await $fetch('/api/robosats/robot', {
+      method: 'POST',
+      body: {
+        token: token.value,
+        pgpPublicKey: pgpPublicKey.value,
+        pgpPrivateKey: pgpPrivateKey.value,
+        nostrPubkey: nostrPubkey.value
+      }
+    })
 
-  // Set head title description tags.
-  useContentHead({
-    title, 
-    description
-  });
-
-  // redirect to locale only on the homepage
-  // because i18n settings do not work
-  const { fullPath } = useRoute();
-  if (fullPath === '/') navigateTo(`/${locale.value}`);
+    apiResponse.value = response
+    console.log('RoboSats API response:', response)
+  } catch (err) {
+    console.error('Failed to generate robot identity:', err)
+  } finally {
+    loading.value = false
+  }
+}
 </script>
+
 
 <template>
   <NuxtLayout>
     <section class="section is-medium">
-      <nav class="breadcrumb">
-        <ul>
-          <li>&nbsp;</li>
-        </ul>
-      </nav>
+      <div class="buttons">
+        <button class="button is-primary" @click="generateIdentity">
+          {{ loading ? 'Loading...' : 'Generate Robot Identity' }}
+        </button>
+      </div>
+
+      <div v-if="token" class="content">
+        <p><strong>Token:</strong> {{ token }}</p>
+        <p><strong>Nostr Pubkey:</strong> {{ nostrPubkey }}</p>
+        <p><strong>PGP Public Key:</strong></p>
+        <pre>{{ pgpPublicKey }}</pre>
+        <p><strong>PGP Private Key:</strong></p>
+        <pre>{{ pgpPrivateKey }}</pre>
+      </div>
+
+      <div v-if="robotResponse" class="content">
+        <h3 class="title is-5">RoboSats API Response:</h3>
+        <pre>{{ robotResponse }}</pre>
+      </div>
     </section>
-    <div class="columns">
-      <div class="column">
-        <MerchantProfile
-          :title="title"
-          :description="description"
-          :image="image"
-          :email="email"
-          :pgp="pgp"
-          :twitter="twitter"
-          :nostr="nostr"
-          :telegram="telegram"
-          :instagram="instagram"
-          :facebook="facebook"
-          :tiktok="tiktok"
-          :youtube="youtube"
-          :websites="websites"
-          :body="body"
-        />
-      </div>
-      <div class="column is-narrow">
-        <section class="section">
-          <MerchantServiceSelector id="side" />
-        </section>
-      </div>
-    </div>
   </NuxtLayout>
 </template>
 
 <style scoped>
-  @media screen and (min-width: 768px) {
-    #side {
-    width: 366px;
-  }
+.section {
+  padding-top: 2rem;
+}
+pre {
+  background: #2e2e2e;
+  color: white;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 </style>

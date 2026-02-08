@@ -277,7 +277,6 @@ const createInvoice = async () => {
   // Handle page load on form submit
   isLoadingPage.value = true
   // Create the invoice
-  console.log('form.value', form.value)
   await $createInvoice(form.value);
 };
 

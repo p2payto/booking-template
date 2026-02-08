@@ -1,0 +1,52 @@
+# Set the base image to Node 18
+FROM node:18
+
+# Update the repository sources list
+RUN apt-get update && apt-get upgrade -y
+
+# Install Tor
+RUN apt-get install -y tor
+
+# Set the working directory to /app
+WORKDIR /app
+
+# Bundle the app source inside the docker image
+COPY . .
+
+# Set app environment variables
+ARG BTCPAY_APIKEY
+ARG PUSHER_APIKEY
+ARG PUSHER_SECRET
+ARG PUSHER_CLUSTER
+ARG PUSHER_APP_ID
+ARG IPX_MAX_AGE
+ARG GITHUB_REPO
+ARG NGROK_TOKEN
+ARG GOOGLE_SERVICE_ACCOUNT_EMAIL
+ARG GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY
+ARG GOOGLE_PERSONAL_CALENDAR_IDS
+ARG GOOGLE_BOOKING_CALENDAR_ID
+
+ENV BTCPAY_APIKEY=${BTCPAY_APIKEY}
+ENV PUSHER_APIKEY=${PUSHER_APIKEY}
+ENV PUSHER_SECRET=${PUSHER_SECRET}
+ENV PUSHER_CLUSTER=${PUSHER_CLUSTER}
+ENV PUSHER_APP_ID=${PUSHER_APP_ID}
+ENV IPX_MAX_AGE=${IPX_MAX_AGE}
+ENV NGROK_TOKEN=${NGROK_TOKEN}
+ENV GOOGLE_SERVICE_ACCOUNT_EMAIL=${GOOGLE_SERVICE_ACCOUNT_EMAIL}
+ENV GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY=${GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY}
+ENV GOOGLE_PERSONAL_CALENDAR_IDS=${GOOGLE_PERSONAL_CALENDAR_IDS}
+ENV GOOGLE_BOOKING_CALENDAR_ID=${GOOGLE_BOOKING_CALENDAR_ID}
+
+# Install all the app npm packages
+RUN npm install
+
+# Build the nuxt app
+RUN npm run build
+
+# Bind docker daemon to port 8080
+EXPOSE 8080
+
+# Start Tor and the Node application
+CMD service tor start && node .output/server/index.mjs

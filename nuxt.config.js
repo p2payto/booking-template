@@ -101,7 +101,8 @@ export default defineNuxtConfig({
       deploymentDomain,
       pusherApikey: process.env.PUSHER_APIKEY,
       pusherCluster: process.env.PUSHER_CLUSTER,
-      pusherAppId: process.env.PUSHER_APP_ID
+      pusherAppId: process.env.PUSHER_APP_ID,
+      robosatsUrl: process.env.ROBOSATS_URL
     }
   },
 
@@ -128,7 +129,8 @@ export default defineNuxtConfig({
     '@nuxt/image',
     'nuxt-icons',
     '@nuxtjs/device',
-    'nuxt-delay-hydration'
+    'nuxt-delay-hydration',
+    '@pinia/nuxt', 
   ],
 
   // Robots settings
@@ -207,6 +209,9 @@ export default defineNuxtConfig({
   // Filesystem on development
   // Github on production
   nitro: {
+    esbuild: {
+      target: 'esnext'
+    },
     devStorage: {
       lang: {
         driver: 'fs',
@@ -235,7 +240,17 @@ export default defineNuxtConfig({
     }
   },
 
+  // alias: {
+  //   'nostr-tools': 'nostr-tools/lib/nostr.cjs'
+  // },
+
   vite: {
+    optimizeDeps: {
+      exclude: ['nostr-tools']
+    },
+    ssr: {
+      noExternal: ['nostr-tools']
+    },
     build: {
       sourcemap: true
     },

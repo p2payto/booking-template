@@ -78,16 +78,16 @@ const {
       <div>{{ bookingServiceTitle }}</div>
     </div>
     <div class=block>
+      <div class="has-text-weight-semibold">{{ $t('serviceBookingForm.bookingExtras') }}</div>
+      <div>{{ (bookingExtras.length) ? bookingExtras : $t('invoiceProfile.notProvided') }}</div>
+    </div>
+    <div class=block>
       <div class="has-text-weight-semibold">{{ $t('serviceBookingForm.from') }}</div>
       <div>{{  $dayjs.utc(`${bookingTimeStart.split(' ')[0]}T${bookingTimeStart.split(' ')[1]}:00Z`).local().format('llll') }}</div>
     </div>
     <div class=block>
       <div class="has-text-weight-semibold">{{ $t('serviceBookingForm.to') }}</div>
       <div>{{  $dayjs.utc(`${bookingTimeEnd.split(' ')[0]}T${bookingTimeEnd.split(' ')[1]}:00Z`).local().format('llll') }}</div>
-    </div>
-    <div class=block>
-      <div class="has-text-weight-semibold">{{ $t('serviceBookingForm.bookingExtras') }}</div>
-      <div>{{ (bookingExtras.length) ? bookingExtras : $t('invoiceProfile.notProvided') }}</div>
     </div>
     <div class=block>
       <div class="has-text-weight-semibold">{{ $t('serviceBookingForm.bookingName') }}</div>
