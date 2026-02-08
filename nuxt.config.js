@@ -121,7 +121,7 @@ export default defineNuxtConfig({
 
   // Import the nuxt modules
   modules: [
-    'nuxt-simple-robots',
+    // 'nuxt-simple-robots',
     'nuxt-simple-sitemap',
     '@nuxt/content',
     '@nuxtjs/i18n',
