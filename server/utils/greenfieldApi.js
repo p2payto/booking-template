@@ -1,30 +1,33 @@
-import { readBody, getQuery } from 'h3';
-import { ofetch } from 'ofetch';
-import { defaultLocale } from '~/assets/js/locales';
+import { readBody, getQuery } from 'h3'
+import { ofetch } from 'ofetch'
+import { defaultLocale } from '~/assets/js/locales'
+
 const {
   btcpayApikey,
   public: {
-    isDev,
-    deploymentDomain
+    isDev
+    // NOTE: deploymentDomain should NOT be used for server-side internal fetches
+    // deploymentDomain
   }
-} = useRuntimeConfig();
+} = useRuntimeConfig()
 
-// Wrapper for the greenfield Api fetch 
+// Wrapper for the BTCPay Greenfield API fetch
 export const greenfieldApi = async (endpoint, event) => {
-
-  const [{
-    btcpay: {
-      storeid,
-      host
-    }
-  }] = await ofetch(`${deploymentDomain}/api/_content/query?_params=` + JSON.stringify({
+  // NOTE: Do NOT call Nuxt Content using an absolute domain here.
+  // In production (DO), the old domain may not resolve from inside the container.
+  // Use a relative path so Nitro handles it internally.
+  const params = encodeURIComponent(JSON.stringify({
     where: [{
       _partial: false,
       _locale: defaultLocale,
       _path: '/settings',
       _dir: ''
     }]
-  }));
+  }))
+
+  const [{
+    btcpay: { storeid, host }
+  }] = await ofetch(`/api/_content/query?_params=${params}`)
 
   const apiFetch = ofetch.create({
     baseURL: `${host}/api/v1/stores/${storeid}`,
@@ -34,27 +37,20 @@ export const greenfieldApi = async (endpoint, event) => {
     },
     redirect: 'follow',
     async onRequestError({ request, error }) {
-      isDev ?  console.log('[fetch request error]', request, error) : null
+      if (isDev) console.log('[fetch request error]', request, error)
     },
     async onResponseError({ request, response }) {
-      isDev ? console.log('[fetch response error]', request, response.status, response.body) : null
+      if (isDev) console.log('[fetch response error]', request, response.status, response.body)
     }
-  });
+  })
 
-  const method = event.method;
+  const method = event.method
+  const query = getQuery(event)
 
-  const query = getQuery(event);
-
-
-  let body;
+  let body
   if (method !== 'GET') {
+    body = await readBody(event)
+  }
 
-    body = await readBody(event);
-  };
-
-  return await apiFetch(endpoint, {
-    method,
-    query,
-    body
-  });
-};
+  return await apiFetch(endpoint, { method, query, body })
+}
