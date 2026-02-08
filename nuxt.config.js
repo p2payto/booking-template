@@ -132,11 +132,11 @@ export default defineNuxtConfig({
   ],
 
   // Robots settings
-  robots: {
-    userAgents: ['*'],
-    disallow: ['/cdn-cgi', ...localeCodes.map(code => `/${code}/invoice`)],
-    sitemap: `${deploymentDomain}/sitemap_index.xml`
-  },
+  // robots: {
+  //   userAgents: ['*'],
+  //   disallow: ['/cdn-cgi', ...localeCodes.map(code => `/${code}/invoice`)],
+  //   sitemap: `${deploymentDomain}/sitemap_index.xml`
+  // },
 
   // Sitemap settings
   sitemap: {
@@ -252,9 +252,9 @@ export default defineNuxtConfig({
     plugins: [
       nodePolyfills({
         include: [
-          'buffer', 
-          'util', 
-          'stream', 
+          'buffer',
+          'util',
+          'stream',
           'crypto'
         ],
         globals: {

@@ -1,0 +1,7 @@
+User-agent: *
+Disallow: /cdn-cgi
+Disallow: /en/invoice
+Disallow: /es/invoice
+Disallow: /it/invoice
+
+Sitemap: https://booking.p2pay.to/sitemap_index.xml
