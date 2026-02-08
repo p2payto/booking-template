@@ -121,8 +121,6 @@ export default defineNuxtConfig({
 
   // Import the nuxt modules
   modules: [
-    // 'nuxt-simple-robots',
-    'nuxt-simple-sitemap',
     '@nuxt/content',
     '@nuxtjs/i18n',
     '@nuxt/image',
@@ -130,20 +128,6 @@ export default defineNuxtConfig({
     '@nuxtjs/device',
     'nuxt-delay-hydration'
   ],
-
-  // Robots settings
-  // robots: {
-  //   userAgents: ['*'],
-  //   disallow: ['/cdn-cgi', ...localeCodes.map(code => `/${code}/invoice`)],
-  //   sitemap: `${deploymentDomain}/sitemap_index.xml`
-  // },
-
-  // Sitemap settings
-  sitemap: {
-    xsl: false,
-    autoI18n: false,
-    sitemapName: `sitemap_index.xml`
-  },
 
   // Setting for content module with i18n
   content: {
