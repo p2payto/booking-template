@@ -7,15 +7,3 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-The favicon is CCO Licensed with no attribution
-https://www.svgrepo.com/page/licensing#CC0
-
-The Bitcoin icon license is:
-By Grayliptrot - This file was derived from: Bitcoin logo.svg,
-Public Domain,
-https://commons.wikimedia.org/w/index.php?curid=30202095
-
-The Lighting Network icon License is:
-By 29b8cc8d3c782a7446cb8cfefbd65f71b5eeb8f37501f6a01728bd8bce0b563d642fe7027852394d930836ea1e8ef48828a2fa582df3951db4a5149ecd14c6f2 - Own work,
-CC BY-SA 4.0,
-https://commons.wikimedia.org/w/index.php?curid=77868012
