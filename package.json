@@ -1,4 +1,8 @@
 {
+  "name": "@p2pay/p2pay-booking",
+  "version": "0.1.0",
+  "author": "Learntheropes <giovanni@learntheropes.xyz>",
+  "license": "MIT",
   "private": true,
   "scripts": {
     "build": "nuxi build",
